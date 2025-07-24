@@ -1,0 +1,8 @@
+/target
+.env
+ERROR.md
+.obsidian
+().md
+Cargo.lock
+docs
+.DS_Store
