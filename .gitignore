@@ -6,3 +6,4 @@ ERROR.md
 Cargo.lock
 docs
 .DS_Store
+migration/target
