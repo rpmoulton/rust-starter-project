@@ -1,55 +1,117 @@
-# RUST Starter MVC API
+# Rust Starter MVC API
 
-## Overview
-This is a starter project to kick off a new project using Axum and SQLx, designed for a Postgres database.
+A reusable Rust REST API starter built with Axum, SeaORM, SQLx, and PostgreSQL. The project follows an MVC-inspired structure with separate routing, controller, service, model, and database entity layers.
 
-## Installation
+## Technology Stack
 
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/rpmoulton/rust-starter-project.git
-    cd rust-starter-project
-    ```
+- **Axum** — HTTP routing and request handling
+- **Tokio** — Asynchronous runtime
+- **SeaORM** — Database entities and ORM operations
+- **SQLx** — PostgreSQL integration and database functionality
+- **PostgreSQL** — Relational database
+- **Serde** — JSON serialization and deserialization
+- **dotenvy** — Environment variable loading
+- **Argon2** — Password hashing
 
-2. **Install Rust and Cargo:**
-    - [Rust](https://rustup.rs/)
+## Requirements
 
-3. **Dependencies:**
-    This project uses the following crates:
-    - [Axum](https://crates.io/crates/axum)
-    - [SQLx](https://crates.io/crates/sqlx)
-    - [SeaORM](https://crates.io/crates/sea-orm) *(if used)*
-    - [Tokio](https://crates.io/crates/tokio)
-    - [Serde](https://crates.io/crates/serde)
-    - [dotenv](https://crates.io/crates/dotenv) *(if used)*
+- Rust and Cargo
+- PostgreSQL
+- A configured database connection
 
-    To install dependencies, run:
-    ```bash
-    cargo build
-    ```
+## Getting Started
 
-4. **Build the project:**
-    ```bash
-    cargo build --release
-    ```
+### 1. Clone the repository
 
-5. **Run the project:**
-    ```bash
-    cargo run
-    ```
+```bash
+git clone https://github.com/rpmoulton/rust-starter-project.git
+cd rust-starter-project
+```
+
+### 2. Configure environment variables
+
+Create a `.env` file in the repository root.
+
+Example:
+
+```env
+DATABASE_URL=postgres://postgres:password@localhost:5432/rust_starter
+```
+
+Adjust the database credentials and database name to match your local environment.
+
+### 3. Install dependencies and compile
+
+```bash
+cargo build
+```
+
+### 4. Run database migrations
+
+From the migration project directory:
+
+```bash
+cd migration
+cargo run -- up
+cd ..
+```
+
+### 5. Start the API
+
+```bash
+cargo run
+```
 
 ## Project Structure
 
 ```text
-src
-├── controllers
-├── main.rs
-├── models
-├── routers
-└── server
+.
+├── src/
+│   ├── controllers/    # HTTP request handlers
+│   ├── entity/         # SeaORM database entities
+│   ├── models/         # Application data structures
+│   ├── routers/        # API route definitions
+│   ├── server/         # Server configuration
+│   ├── services/       # Business logic
+│   └── main.rs         # Application entry point
+├── migration/          # SeaORM migration project
+├── Cargo.toml
+├── Cargo.lock
+└── README.md
 ```
 
-- `src/controllers`: Contains controllers for handling HTTP requests and responses.
-- `src/models`: Contains models representing data structures and database entities.
-- `src/routers`: Contains endpoint routers for the project.
-- `src/models/index.rs`: Manages
+## Development
+
+Check compilation:
+
+```bash
+cargo check
+```
+
+Format code:
+
+```bash
+cargo fmt
+```
+
+Run Clippy:
+
+```bash
+cargo clippy --all-targets --all-features
+```
+
+Run tests:
+
+```bash
+cargo test
+```
+
+## Database Migrations
+
+Database schema changes are managed using SeaORM migrations.
+
+See [migration/README.md](migration/README.md) for migration commands.
+
+## License
+
+See the LICENSE file for licensing terms.

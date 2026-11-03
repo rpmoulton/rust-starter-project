@@ -1,5 +1,5 @@
 use axum::{routing::get, Extension, Router};
-use dotenv::dotenv;
+use dotenvy::dotenv;
 use sea_orm::Database;
 use std::env;
 use std::net::SocketAddr;

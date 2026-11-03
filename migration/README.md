@@ -1,41 +1,75 @@
-# Running Migrator CLI
+# Database Migrations
 
-- Generate a new migration file
-    ```sh
-    cargo run -- generate MIGRATION_NAME
-    ```
-- Apply all pending migrations
-    ```sh
-    cargo run
-    ```
-    ```sh
-    cargo run -- up
-    ```
-- Apply first 10 pending migrations
-    ```sh
-    cargo run -- up -n 10
-    ```
-- Rollback last applied migrations
-    ```sh
-    cargo run -- down
-    ```
-- Rollback last 10 applied migrations
-    ```sh
-    cargo run -- down -n 10
-    ```
-- Drop all tables from the database, then reapply all migrations
-    ```sh
-    cargo run -- fresh
-    ```
-- Rollback all applied migrations, then reapply all migrations
-    ```sh
-    cargo run -- refresh
-    ```
-- Rollback all applied migrations
-    ```sh
-    cargo run -- reset
-    ```
-- Check the status of all migrations
-    ```sh
-    cargo run -- status
-    ```
+This project uses SeaORM's migration framework to manage PostgreSQL schema changes.
+
+All commands below should be run from the `migration/` directory.
+
+## Creating migrations
+
+Generate a new migration:
+
+```bash
+cargo run -- generate MIGRATION_NAME
+```
+
+Implement the generated migration, then apply it to the database.
+
+## Applying migrations
+
+Apply all pending migrations:
+
+```bash
+cargo run -- up
+```
+
+Apply a specific number of pending migrations:
+
+```bash
+cargo run -- up -n 10
+```
+
+## Rolling back migrations
+
+Rollback the most recently applied migration:
+
+```bash
+cargo run -- down
+```
+
+Rollback multiple migrations:
+
+```bash
+cargo run -- down -n 10
+```
+
+## Checking migration status
+
+```bash
+cargo run -- status
+```
+
+## Resetting the database
+
+**Warning:** The following commands may permanently delete database data. Use them only when you understand their effects.
+
+Drop all tables and reapply migrations:
+
+```bash
+cargo run -- fresh
+```
+
+Rollback all migrations and reapply them:
+
+```bash
+cargo run -- refresh
+```
+
+Rollback all applied migrations:
+
+```bash
+cargo run -- reset
+```
+
+## Configuration
+
+Ensure that your PostgreSQL connection is configured using the `DATABASE_URL` environment variable before running migrations.

@@ -2,7 +2,10 @@ use crate::models::api_error::APIerror;
 use crate::models::user::User;
 use axum::extract::Path;
 use axum::{http::StatusCode, Extension, Json};
-use bcrypt::{hash, DEFAULT_COST};
+use argon2::{
+    password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
+    Argon2,
+};
 use chrono::Utc;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set,
@@ -15,10 +18,15 @@ pub async fn user_create(
     Json(user_data): Json<User>,
 ) -> Result<Json<User>, APIerror> {
     let conn_db = db.as_ref();
-    let hashpassword = hash(&user_data.password, DEFAULT_COST).map_err(|err| APIerror {
-        message: err.to_string(),
-        status_code: StatusCode::INTERNAL_SERVER_ERROR,
-    })?;
+    let salt = SaltString::generate(&mut OsRng);
+
+    let hashpassword = Argon2::default()
+        .hash_password(user_data.password.as_bytes(), &salt)
+        .map_err(|_| APIerror {
+            message: "Error hashing password".to_string(),
+            status_code: StatusCode::INTERNAL_SERVER_ERROR
+        })?
+        .to_string();
     let user = entity::users::ActiveModel {
         username: Set(user_data.username.to_owned()),
         email: Set(user_data.email.to_owned()),
